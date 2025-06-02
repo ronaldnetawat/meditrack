@@ -116,6 +116,37 @@ function formatDate(date) {
     return new Date(date).toLocaleDateString('en-US', options);
 }
 
+// Delete a specific session
+function deleteSession(sessionDate) {
+    if (confirm('Are you sure you want to delete this session?')) {
+        const data = loadData();
+        
+        // Find the session to delete
+        const sessionIndex = data.sessions.findIndex(session => session.date === sessionDate);
+        
+        if (sessionIndex !== -1) {
+            // Subtract the session duration from total time
+            const deletedSession = data.sessions[sessionIndex];
+            data.totalTime -= deletedSession.duration;
+            
+            // Remove the session
+            data.sessions.splice(sessionIndex, 1);
+            
+            // Save updated data
+            saveData(data);
+            
+            // Update the display
+            updateStats();
+            
+            // Show confirmation
+            document.querySelector('.text-gray-500').textContent = 'Session deleted';
+            setTimeout(() => {
+                document.querySelector('.text-gray-500').textContent = 'Press Start to begin your meditation session';
+            }, 2000);
+        }
+    }
+}
+
 // Update stats display
 function updateStats() {
     const data = loadData();
@@ -127,9 +158,20 @@ function updateStats() {
         // Show only last 5 sessions
         const recentSessions = data.sessions.slice(-5).reverse();
         recentSessionsContainer.innerHTML = recentSessions.map(session => `
-            <div class="bg-gray-50 rounded-lg px-4 py-2 flex justify-between items-center">
-                <span class="text-sm text-gray-600">${formatDate(session.date)}</span>
-                <span class="text-sm font-medium text-gray-800">${formatTime(session.duration)}</span>
+            <div class="bg-gray-50 rounded-lg px-4 py-2 flex justify-between items-center group">
+                <div class="flex-grow">
+                    <span class="text-sm text-gray-600">${formatDate(session.date)}</span>
+                    <span class="text-sm font-medium text-gray-800 ml-4">${formatTime(session.duration)}</span>
+                </div>
+                <button onclick="deleteSession('${session.date}')" 
+                        class="ml-4 text-red-500 hover:text-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        title="Delete session">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                        </path>
+                    </svg>
+                </button>
             </div>
         `).join('');
     } else {
