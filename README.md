@@ -5,6 +5,10 @@ A simple, beautiful meditation timer that tracks your mindfulness sessions. Buil
 ## Features
 
 - ⏱️ Start/Stop timer functionality
+- 💾 **Persistent session tracking** - Your meditation history is saved in the browser
+- 📊 **Total meditation time** - See your cumulative meditation time
+- 📈 **Session count** - Track how many sessions you've completed
+- 📝 **Recent sessions history** - View your last 5 meditation sessions
 - 🎨 Beautiful, modern UI with gradient design
 - 📱 Fully responsive design
 - ⏸️ Handles tab switching (pauses when tab is hidden)
@@ -16,7 +20,18 @@ A simple, beautiful meditation timer that tracks your mindfulness sessions. Buil
 2. Click "Start" to begin your meditation session
 3. The timer will track your session in HH:MM:SS format
 4. Click "Stop" when you finish meditating
-5. The app will display your session duration and reset after 5 seconds
+5. Your session is automatically saved (minimum 5 seconds)
+6. View your total meditation time and recent sessions
+7. Close the browser and come back - your data persists!
+
+## Data Persistence
+
+The app uses browser localStorage to save your meditation data:
+- Total accumulated meditation time
+- Number of sessions completed
+- History of recent sessions with timestamps
+- Data persists even after closing the browser
+- Data is stored locally on your device (not sent to any server)
 
 ## Local Development
 
@@ -58,8 +73,8 @@ To run this locally, simply open `index.html` in your web browser. No build proc
 
 ```
 meditation-app/
-├── index.html      # Main HTML file
-├── script.js       # Timer logic
+├── index.html      # Main HTML file with session tracking UI
+├── script.js       # Timer logic + localStorage functionality
 ├── vercel.json     # Vercel configuration
 └── README.md       # This file
 ```
@@ -68,7 +83,16 @@ meditation-app/
 
 - Change colors: Edit the Tailwind classes in `index.html`
 - Modify timer logic: Edit `script.js`
-- Add features: Consider adding sound notifications, session history, etc.
+- Add features: Consider adding:
+  - Sound notifications
+  - Export session data
+  - Meditation goals
+  - Different meditation types
+  - Dark mode
+
+## Privacy
+
+All data is stored locally in your browser using localStorage. No data is sent to any external servers. Your meditation history remains private on your device.
 
 ## License
 
